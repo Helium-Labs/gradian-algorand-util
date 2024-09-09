@@ -1,4 +1,3 @@
-import { AlgorandUtil } from "./util/index";
-import * as Signer from "./signer";
-
-export { AlgorandUtil, Signer };
+export * from "./util";
+export * from "./util/types";
+export * from "./signer";
