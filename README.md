@@ -1,6 +1,6 @@
 # Algorand Blockchain Utilities
 
-A utility wrapper over algosdk that abstracts some of its APIs to simplify algosdk usage in some specific instances.
+A legacy utility wrapper over algosdk that abstracts some of its APIs to simplify algosdk usage in some specific instances. No longer useful since Algokit's release -- please see Algokit.
 
 ## Features
 
