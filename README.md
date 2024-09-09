@@ -1,14 +1,9 @@
 # Algorand Blockchain Utilities
 
-This package offers a collection of utility functions specifically designed for interacting with the Algorand blockchain. It's equipped to handle various operations, including signing transactions in multiple ways, creating, updating, and interacting with smart contracts, asset transfers, and more. 
-
-⭐ Stars ⭐ and contributions are highly appreciated.
-
-![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+A utility wrapper over algosdk that abstracts some of its APIs to simplify algosdk usage in some specific instances.
 
 ## Features
 
-- Exports to ESM and CJS with Node/Browser compatibility using Rollup.
 - Provide functions to sign transactions in various ways for the Algorand Blockchain.
 - Utilities for various tasks, such as:
   - Compile a program source file
@@ -19,7 +14,6 @@ This package offers a collection of utility functions specifically designed for 
   - Interact with assets and apps
   - Compile, create, update, and delete Algorand smart contracts
   - Utility functions for Algorand wallets
-  - And more...
 - Transaction Signer abstraction, including implementations for signing with transactions with Wallet Connect and a key pair.
 
 ## Installation
