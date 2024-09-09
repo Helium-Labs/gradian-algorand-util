@@ -8,6 +8,7 @@ import {
   SignedTxnInGroup,
   Wallet,
 } from "./types";
+import { AssertDefined } from "../util";
 
 /**
  * Algorand Utility class
@@ -100,9 +101,7 @@ export class AlgorandUtil {
     wallet: Wallet
   ): Promise<Record<string, any>> {
     // assert wallet.sk is defined
-    if (!wallet.sk) {
-      throw new Error("Wallet sk is undefined.");
-    }
+    AssertDefined(wallet.sk, "wallet does not have a secret key")
     const signedTxn = txn.signTxn(wallet.sk);
     const txId = txn.txID().toString();
     console.log("Signed transaction with txID: %s", txId);
@@ -125,15 +124,15 @@ export class AlgorandUtil {
     if account is undefined, then it needs user signing i.e. it remains an unsigned transaction.
     */
     for (let idx = 0; idx < txns.length; idx++) {
+      const txn_i = txns[idx]
+      AssertDefined(txn_i, "txns[idx] must be defined")
       if (accounts[idx]?.sk !== undefined) {
         // wallet is defined, so sign the transaction
         const wallet: Wallet = accounts[idx] as Wallet;
-        if (!wallet.sk) {
-          throw new Error("Wallet does not have a secret key");
-        }
-        let signedTxn: Uint8Array = txns[idx].signTxn(wallet.sk);
+        AssertDefined(wallet.sk, "Wallet must have have a secret key")
+        let signedTxn: Uint8Array = txn_i.signTxn(wallet.sk);
         const encodedTxn = Buffer.from(
-          algosdk.encodeUnsignedTransaction(txns[idx])
+          algosdk.encodeUnsignedTransaction(txn_i)
         ).toString("base64");
 
         // convert to base64 for compact transport
@@ -149,7 +148,7 @@ export class AlgorandUtil {
         });
       } else {
         const encodedTxn = Buffer.from(
-          algosdk.encodeUnsignedTransaction(txns[idx])
+          algosdk.encodeUnsignedTransaction(txn_i)
         ).toString("base64");
         stxns.push({
           txn: encodedTxn,
@@ -231,10 +230,7 @@ export class AlgorandUtil {
     );
 
     // Assert sk is defined, therefore group is fully signed
-    if (!wallet.sk) {
-      throw new Error("Wallet does not have a secret key");
-    }
-
+    AssertDefined(wallet.sk, "Wallet must have have a secret key")
     await this.submitSignedTransactions(stxns as SignedTxnInGroup[]);
 
     return stxns;
@@ -429,10 +425,7 @@ export class AlgorandUtil {
     });
 
     const state = valueArray.pop();
-    if (state === undefined) {
-      throw new Error("No such global state variable.");
-    }
-
+    AssertDefined(state, "global state is not defined")
     const value = state.value;
 
     const type = parseInt(value.type);
@@ -481,9 +474,7 @@ export class AlgorandUtil {
     b64VarName: string
   ) {
     const appInfo = await this.getAppInfoInUserContext(walletAddr, appIndex);
-    if (appInfo === undefined) {
-      throw new Error("user hasn't opted into app");
-    }
+    AssertDefined(appInfo, "user hasn't opted into app")
 
     const appKV = appInfo["key-value"];
     if (appKV === undefined) {
@@ -549,6 +540,7 @@ export class AlgorandUtil {
 
     for (let i = 0; i < assets.length; i++) {
       const asset = assets[i];
+      AssertDefined(asset, "asset must be defined")
       const assetUint64 = algosdk.encodeUint64(asset);
       const offset = i * sizeOf;
       result.set(assetUint64, offset);
@@ -736,9 +728,7 @@ export class AlgorandUtil {
     claimFeesFcnName: string,
     appIndex: number
   ) {
-    if (serverWallet === undefined) {
-      throw new Error("serverWallet is undefined");
-    }
+    AssertDefined(serverWallet, "serverWallet is undefined")
     // claim the fees from the application
     // const foreignAssets = await getForeignAssetsArray(appIndex)
     // console.log("foreignAssets", foreignAssets)
@@ -760,10 +750,7 @@ export class AlgorandUtil {
     );
 
     // Assert sk is defined, therefore group is fully signed
-    if (!serverWallet.sk) {
-      throw new Error("serverWallet does not have a secret key");
-    }
-
+    AssertDefined(serverWallet.sk, "serverWallet does not have a secret key")
     const response = await this.submitSignedTransactions(
       stxns as SignedTxnInGroup[]
     );
@@ -786,10 +773,7 @@ export class AlgorandUtil {
     optInAssetFcnName: string,
     appIndex: number
   ) {
-    if (serverWallet === undefined) {
-      throw new Error("serverWallet is undefined");
-    }
-
+    AssertDefined(serverWallet, "serverWallet is undefined")
     const suggestedParams = await this.algoClient.getTransactionParams().do();
     const appArgs = [
       new Uint8Array(Buffer.from(optInAssetFcnName)),
@@ -811,10 +795,7 @@ export class AlgorandUtil {
     );
 
     // Assert sk is defined, therefore group is fully signed
-    if (!serverWallet.sk) {
-      throw new Error("serverWallet does not have a secret key");
-    }
-
+    AssertDefined(serverWallet.sk, "serverWallet does not have a secret key")
     const response = await this.submitSignedTransactions(
       stxns as SignedTxnInGroup[]
     );
@@ -858,10 +839,7 @@ export class AlgorandUtil {
    * @returns {any[]} array of (partially) signed transactions
    */
   async sendAlgo(serverWallet: FalseyWallet, amount: number, address: string) {
-    if (serverWallet === undefined) {
-      throw new Error("serverWallet is undefined");
-    }
-
+    AssertDefined(serverWallet, "serverWallet is undefined")
     // get suggested parameters
     const suggestedParams = await this.algoClient.getTransactionParams().do();
 
@@ -891,10 +869,7 @@ export class AlgorandUtil {
     amount: number,
     address: string
   ) {
-    if (serverWallet === undefined) {
-      throw new Error("serverWallet is undefined");
-    }
-
+    AssertDefined(serverWallet, "serverWallet is undefined")
     // get suggested parameters
     const suggestedParams = await this.algoClient.getTransactionParams().do();
 
@@ -946,10 +921,7 @@ export class AlgorandUtil {
     // submit the transaction
 
     // Assert sk is defined, therefore group is fully signed
-    if (!wallet.sk) {
-      throw new Error("wallet does not have a secret key");
-    }
-
+    AssertDefined(wallet.sk, "wallet does not have a secret key")
     const response = await this.submitSignedTransactions(
       stxns as SignedTxnInGroup[]
     );
@@ -967,9 +939,7 @@ export class AlgorandUtil {
     let txn = algosdk.makeApplicationDeleteTxn(wallet.addr, params, appIndex);
 
     // Assert sk is defined, therefore group is fully signed
-    if (!wallet.sk) {
-      throw new Error("wallet does not have a secret key");
-    }
+    AssertDefined(wallet.sk, "wallet does not have a secret key")
 
     const stxns = await this.generateGroupTransactionSigningRequest(
       [txn],

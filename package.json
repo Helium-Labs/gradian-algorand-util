@@ -1,7 +1,7 @@
 {
   "name": "@gradian/util",
-  "version": "1.2.7",
-  "description": "Useful Utilities for interacting with the Algorand blockchain",
+  "version": "1.3.0",
+  "description": "Utility wrapper around (Algorand) algosdk",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup --config rollup.config.mjs"
@@ -11,31 +11,42 @@
     "url": "https://github.com/Helium-Labs/gradian-algorand-util"
   },
   "author": "",
-  "license": "ISC",
-  "main": "dist/bundle.cjs",
-  "module": "dist/bundle.mjs",
-  "types": "dist/src/index.d.ts",
+  "license": "MIT",
+  "main": "./dist/src/bundle.cjs",
+  "module": "./dist/src/bundle.mjs",
   "exports": {
     ".": {
-      "require": "./dist/bundle.cjs",
-      "import": "./dist/bundle.mjs"
+      "import": {
+        "types": "./dist/src/index.d.ts",
+        "default": "./dist/src/bundle.mjs"
+      },
+      "require": {
+        "types": "./dist/src/index.d.ts",
+        "default": "./dist/src/bundle.cjs"
+      }
     }
   },
+  "types": "./dist/src/index.d.ts",
+  "peerDependencies": {
+    "algosdk": "^2.7.0"
+  },
   "dependencies": {
-    "algosdk": "^2.6.0"
+    "@json-rpc-tools/utils": "^1.7.6",
+    "algosdk": "^2.7.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^24.0.1",
-    "@rollup/plugin-json": "^6.0.0",
-    "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-terser": "^0.4.3",
-    "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/browserify": "^12.0.37",
     "@types/node": "^18.18.3",
     "rimraf": "^4.4.0",
+    "rollup": "^4.21.2",
     "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-polyfill-node": "^0.12.0",
-    "rollup-plugin-typescript2": "^0.34.1",
+    "rollup-plugin-polyfill-node": "^0.13.0",
+    "rollup-plugin-typescript2": "^0.36.0",
     "tslib": "^2.4.1",
     "typescript": "^4.9.4"
   }
