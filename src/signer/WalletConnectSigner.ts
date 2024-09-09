@@ -1,7 +1,7 @@
 import { Algodv2 } from "algosdk";
 import { Signer } from "./types";
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils";
-import { SignTxnRequest } from "../util/types";
+import { SignTxnRequest } from "../wrapper/types";
 
 export default class WalletConnectSigner implements Signer {
   algoClient: Algodv2;

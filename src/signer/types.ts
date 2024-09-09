@@ -1,5 +1,5 @@
 import { Algodv2 } from "algosdk";
-import { SignTxnRequest } from "../util/types";
+import { SignTxnRequest } from "../wrapper/types";
 
 // The base interface for IPFS pinning services.
 export interface Signer {

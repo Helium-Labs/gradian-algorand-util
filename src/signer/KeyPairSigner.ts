@@ -1,6 +1,6 @@
 import algosdk, { Algodv2 } from "algosdk";
 import { Signer } from "./types";
-import { SignTxnRequest, Wallet } from "../util/types";
+import { SignTxnRequest, Wallet } from "../wrapper/types";
 
 export default class KeyPairSigner implements Signer {
   wallet: Wallet;
