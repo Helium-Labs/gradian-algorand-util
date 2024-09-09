@@ -1,7 +1,7 @@
 {
   "name": "@gradian/util",
-  "version": "1.3.7",
-  "description": "Utility wrapper around (Algorand) algosdk",
+  "version": "1.3.8",
+  "description": "Legacy utility wrapper around (Algorand) algosdk",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup --config rollup.config.mjs"
