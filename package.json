@@ -12,17 +12,17 @@
   },
   "author": "",
   "license": "MIT",
-  "main": "./dist/src/bundle.cjs",
-  "module": "./dist/src/bundle.mjs",
+  "main": "./dist/bundle.cjs",
+  "module": "./dist/bundle.mjs",
   "exports": {
     ".": {
       "import": {
         "types": "./dist/src/index.d.ts",
-        "default": "./dist/src/bundle.mjs"
+        "default": "./dist/bundle.mjs"
       },
       "require": {
         "types": "./dist/src/index.d.ts",
-        "default": "./dist/src/bundle.cjs"
+        "default": "./dist/bundle.cjs"
       }
     }
   },
